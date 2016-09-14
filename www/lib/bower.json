@@ -1,0 +1,19 @@
+{
+  "name": "todue",
+  "description": "elegant todo app",
+  "main": "index.js",
+  "authors": [
+    "jdtzmn <jdtzmn@gmail.com>"
+  ],
+  "license": "GPL-3.0",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "font-awesome": "fontawesome#^4.6.3",
+    "bootstrap": "v4.0.0-alpha.3",
+    "react": "^15.3.1",
+    "babel": "5.8.38",
+    "node-uuid": "^1.4.7",
+    "animate.css": "^3.5.2"
+  }
+}

@@ -1,0 +1,22 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  title todue
+  link(rel='stylesheet', href='/css/styles.min.css', media='screen', charset='utf-8')
+  script(src='/js/libraries.min.js', charset='utf-8')
+  script(src='/socket.io/socket.io.js', charset='utf-8')
+body
+  nav.navbar.navbar-fixed-top
+    a.navbar-brand(href='/') todue
+    button.navbar-toggler.hidden-sm-up.pull-xs-right(data-toggle='collapse', data-target='#collapse-navbar') &#9776;
+    form#collapse-navbar.collapse.navbar-toggleable-xs.form-inline.new-task-form
+
+  .container(id='container')
+
+  script(
+    type='text/babel'
+  ).
+
+
+  script(src='/js/scripts.min.js', charset='utf-8')

@@ -1,0 +1,89 @@
+body {
+  background: #3299BB;
+  padding-top: 70px;
+}
+
+nav {
+  background: #BCBCBC;
+}
+
+button.navbar-toggler {
+  outline: none;
+}
+
+div.new-task-flex {
+  display: flex !important;
+  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.new-task-group {
+  flex-grow: 10;
+  order: 1;
+}
+
+.new-task-input-group {
+  display: flex !important;
+}
+
+.task-name {
+  min-width: 200px;
+}
+
+.new-task-tag {
+  outline: none !important;
+  width: auto;
+  color: #55595c !important;
+}
+
+.new-task-tag:focus {
+  background: #D79435 !important;
+}
+
+.difficulty {
+  order: 2;
+  height: 38px !important;
+}
+
+.date-group {
+  width: auto;
+  order: 3;
+}
+
+.new-task-button {
+  order: 4;
+  height: 38px;
+  background: #3299BB;
+  border-color: #3299BB;
+}
+
+@media (min-width: 544px) {
+  .new-task-button {
+    margin-left: 10px;
+  }
+
+  .category {
+    max-width: 233px;
+  }
+
+  .date {
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 543px) {
+  .new-task-input-group {
+    flex-wrap: wrap;
+  }
+
+  .task-name {
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+  }
+
+  .new-task-tag:first-of-type {
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+  }
+}
