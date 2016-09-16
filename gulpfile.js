@@ -19,13 +19,13 @@ const libraries = {
     'www/lib/bower_components/react/react-dom.js',
     'www/lib/bower_components/babel/browser.js',
     'www/lib/bower_components/node-uuid/uuid.js',
-    'www/lib/Pikaday/pikaday.js'
+    'www/lib/bower_components/pikaday/pikaday.js'
   ],
   css: [
     'www/lib/bower_components/bootstrap/dist/css/bootstrap.css',
     'www/lib/bower_components/font-awesome/css/font-awesome.css',
     'www/lib/bower_components/animate.css/animate.css',
-    'www/lib/Pikaday/css/pikaday.css'
+    'www/lib/boewr_components/pikaday/css/pikaday.css'
   ]
 }
 
