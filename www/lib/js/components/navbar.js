@@ -25,12 +25,10 @@ let TaskInput = React.createClass({
   },
   tag: function (e) {
     let element = e.nativeEvent.srcElement
-    console.log(e.keyCode)
     let value = element.value
-    let regex = /#(\S*) /g
+    let regex = /\B#(\S+) /g
     let matches = {}
     let match = regex.exec(value)
-    console.log(match)
     while (match !== null) {
       matches[match[1]] = match[0]
       match = regex.exec(value)
@@ -39,17 +37,20 @@ let TaskInput = React.createClass({
       this.setState({
         tags: this.state.tags.concat(Object.keys(matches))
       })
-      element.value = value.replace(/#(\S*) /g, '')
+      element.value = value.replace(/\B#\S+ /g, '#')
     }
     if (e.keyCode === 13) {
-      let matches = /#(\S*)/g.exec(value)
+      let matches = /\B#(\S+)/g.exec(value)
       if (matches) {
         let match = matches[1]
         this.state.tags.push(match)
         this.setState({
           tags: this.state.tags
         })
-        element.value = value.replace(/#(\S*)/g, '')
+        element.value = value.replace(/\B#\S+/g, '#')
+      } else {
+        element.value = value.replace(/\B#\B/g, '')
+        $('.new-task-form').submit()
       }
     }
   },
@@ -75,10 +76,10 @@ let TaskInput = React.createClass({
 })
 
 let DifficultyDropdown = React.createClass({
-  render () {
+  render: function () {
     return (
       <select className='form-control difficulty'>
-        <option defaultValue value=''>Difficulty</option>
+        <option defaultValue>Difficulty</option>
         <option value='1'>Easy</option>
         <option value='2'>Medium</option>
         <option value='3'>Hard</option>
