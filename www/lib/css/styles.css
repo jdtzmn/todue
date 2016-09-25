@@ -46,6 +46,10 @@ div.new-task-flex {
   height: 38px !important;
 }
 
+.difficulty:focus option:first-of-type {
+    display: none;
+}
+
 .date-group {
   width: auto;
   order: 3;
