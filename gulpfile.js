@@ -80,7 +80,6 @@ gulp.task('serve', () => {
 
 gulp.task('watch', () => {
   gulp.start(['js'])
-  gulp.start(['js-lib'])
   gulp.start(['css'])
   gulp.watch('www/lib/js/**/*.js', ['js'])
   gulp.watch('www/dist/bootstrap_components/**/*.js', ['js-lib'])
