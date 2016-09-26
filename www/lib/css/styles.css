@@ -27,7 +27,7 @@ div.new-task-flex {
   display: flex !important;
 }
 
-.task-name {
+.new-task-name {
   min-width: 200px;
 }
 
@@ -81,7 +81,7 @@ div.new-task-flex {
     flex-wrap: wrap;
   }
 
-  .task-name {
+  .new-task-name {
     border-top-right-radius: 5px !important;
     border-bottom-right-radius: 5px !important;
   }
@@ -90,4 +90,47 @@ div.new-task-flex {
     border-top-left-radius: 5px !important;
     border-bottom-left-radius: 5px !important;
   }
+}
+
+.dif-easy {
+  background: #8FEB8F;
+  border-color: #A9FFA9;
+}
+
+.dif-medium {
+  background: #FFFA9B;
+  border-color: #FFE081;
+}
+
+.dif-hard {
+  background: #FFA09C;
+  border-color: #FF8682;
+}
+
+.task-flex {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
+.task-input {
+  display: flex;
+}
+
+.dif-hard > .task-flex > .task-input > .task-name {
+  background: inherit;
+}
+
+.dif-hard > .task-flex > .task-input > .task-name:focus {
+  background: #fff;
+}
+
+.tag-due {
+  padding-top: 0.5rem;
+}
+
+.task-tag {
+  width: auto;
+  color: #55595c !important;
 }

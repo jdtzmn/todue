@@ -4,7 +4,7 @@ $(() => {
   $('.new-task-form').submit((e) => {
     e.preventDefault()
 
-    let name = $('.task-name').val()
+    let name = $('.new-task-name').val()
     let category = $('.category').val()
     let difficulty = $('.difficulty').val()
     let date = new Date($('.date').val()).toJSON()
@@ -25,13 +25,13 @@ $(() => {
 
       storage.setItem('tasks', JSON.stringify(tasks))
 
-      $('.task-name').val('')
+      $('.new-task-name').val('')
       $('.category').val('')
       $('.difficulty').val('')
       $('.date').val('')
     } else {
       if (!name) {
-        $('.task-name').focus().animateCSS('shake')
+        $('.new-task-name').focus().animateCSS('shake')
       } else if (!category) {
         $('.category').focus().animateCSS('shake')
       } else if (!difficulty) {

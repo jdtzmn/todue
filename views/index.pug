@@ -12,6 +12,20 @@ body
     button.navbar-toggler.hidden-sm-up.pull-xs-right(data-toggle='collapse', data-target='#collapse-navbar') &#9776;
     form#collapse-navbar.collapse.navbar-toggleable-xs.form-inline.new-task-form
 
+  .container
+    ul.list-group
+      li.list-group-item.dif-easy Math
+        span.tag.tag-default.tag-pill.pull-xs-right 2 Days
+      li.list-group-item.dif-medium Study
+        span.tag.tag-default.tag-pill.pull-xs-right 3 Days
+      li.list-group-item.dif-hard
+        .task-flex
+          .task-input.input-group
+            input.task-name.form-control(type='text',value='P.130#1-7')
+            .input-group-addon.task-tag Hard
+          .tag-due
+            span.tag.tag-default.tag-pill.pull-xs-right 1 Week
+
   .container(id='container')
 
   script(

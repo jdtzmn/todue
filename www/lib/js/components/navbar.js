@@ -63,7 +63,7 @@ let TaskInput = React.createClass({
     return (
       <div className='new-task-group'>
         <div className='input-group new-task-input-group'>
-          <input className='form-control task-name' type='text' placeholder='Task Name' autoFocus='true' onKeyUp={this.tag} />
+          <input className='form-control new-task-name' type='text' placeholder='Task Name' autoFocus='true' onKeyUp={this.tag} />
           {
             this.state.tags.map((tag, i) => {
               return <Tag name={tag} keypress={this.keypress} key={i} />
