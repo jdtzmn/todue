@@ -1,12 +1,16 @@
 var React, ReactDOM, Pikaday, $, pull
 
-let Tag = React.createClass({
+let NewTaskTag = React.createClass({
+  propTypes: {
+    keypress: React.PropTypes.func.isRequired,
+    name: React.PropTypes.string.isRequired
+  },
   render: function () {
     return <button className='input-group-addon new-task-tag bg-warning' onKeyDown={this.props.keypress} onClick={(e) => { e.preventDefault() }}>{this.props.name} <i className='fa fa-times' onClick={this.props.keypress} /></button>
   }
 })
 
-let TaskInput = React.createClass({
+let NewTaskInput = React.createClass({
   keypress: function (e) {
     let element = e.nativeEvent.target.children.length ? e.nativeEvent.target : e.nativeEvent.target.parentElement
     let text = element.textContent.slice(0, -1)
@@ -26,32 +30,19 @@ let TaskInput = React.createClass({
   tag: function (e) {
     let element = e.nativeEvent.srcElement
     let value = element.value
-    let regex = /\B#(\S+) /g
+    let regex = /\B#(\S+)/g
     let matches = {}
     let match = regex.exec(value)
     while (match !== null) {
       matches[match[1]] = match[0]
       match = regex.exec(value)
     }
-    if (Object.keys(matches).length > 0) {
+    if (e.keyCode === 32 || e.keyCode === 13 || e.keyCode === 9) {
+      value = element.value = value.replace(/\B#\B/g, '')
       this.setState({
         tags: this.state.tags.concat(Object.keys(matches))
       })
-      element.value = value.replace(/\B#\S+ /g, '#')
-    }
-    if (e.keyCode === 13) {
-      let matches = /\B#(\S+)/g.exec(value)
-      if (matches) {
-        let match = matches[1]
-        this.state.tags.push(match)
-        this.setState({
-          tags: this.state.tags
-        })
-        element.value = value.replace(/\B#\S+/g, '#')
-      } else {
-        element.value = value.replace(/\B#\B/g, '')
-        $('.new-task-form').submit()
-      }
+      element.value = value.replace(/\B#\S+ ?/g, '#')
     }
   },
   getInitialState: function () {
@@ -66,7 +57,7 @@ let TaskInput = React.createClass({
           <input className='form-control new-task-name' type='text' placeholder='Task Name' autoFocus='true' onKeyUp={this.tag} />
           {
             this.state.tags.map((tag, i) => {
-              return <Tag name={tag} keypress={this.keypress} key={i} />
+              return <NewTaskTag name={tag} keypress={this.keypress} key={i} />
             })
           }
         </div>
@@ -75,7 +66,7 @@ let TaskInput = React.createClass({
   }
 })
 
-let DifficultyDropdown = React.createClass({
+let NewTaskDifficultyDropdown = React.createClass({
   render: function () {
     return (
       <select className='form-control difficulty'>
@@ -88,7 +79,7 @@ let DifficultyDropdown = React.createClass({
   }
 })
 
-let Pickaday = React.createClass({
+let NewTaskPickaday = React.createClass({
   render () {
     let t = this
     return (
@@ -124,9 +115,9 @@ let Navbar = React.createClass({
   render () {
     return (
       <div className='new-task-flex'>
-        <TaskInput />
-        <DifficultyDropdown />
-        <Pickaday />
+        <NewTaskInput />
+        <NewTaskDifficultyDropdown />
+        <NewTaskPickaday />
         <NewTaskButton />
       </div>
     )

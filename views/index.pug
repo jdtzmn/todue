@@ -7,26 +7,34 @@ head
   script(src='/js/libraries.min.js', charset='utf-8')
   script(src='/socket.io/socket.io.js', charset='utf-8')
 body
-  nav.navbar.navbar-fixed-top
-    a.navbar-brand(href='/') todue
+  nav.navbar.navbar-fixed-top.bg-inverse
+    a.navbar-brand(href='/')
+      b.todue-brand todue
     button.navbar-toggler.hidden-sm-up.pull-xs-right(data-toggle='collapse', data-target='#collapse-navbar') &#9776;
     form#collapse-navbar.collapse.navbar-toggleable-xs.form-inline.new-task-form
 
   .container
     ul.list-group
-      li.list-group-item.dif-easy Math
-        span.tag.tag-default.tag-pill.pull-xs-right 2 Days
-      li.list-group-item.dif-medium Study
-        span.tag.tag-default.tag-pill.pull-xs-right 3 Days
-      li.list-group-item.dif-hard
-        .task-flex
-          .task-input.input-group
-            input.task-name.form-control(type='text',value='P.130#1-7')
-            .input-group-addon.task-tag Hard
-          .tag-due
-            span.tag.tag-default.tag-pill.pull-xs-right 1 Week
+      li.task.list-group-item.dif-hard
+        .task-input.input-group
+          input.task-name.form-control(type='text',value='P.130#1-7')
+          button.input-group-addon.bg-primary.task-tag Hard
+          button.input-group-addon.bg-primary.task-tag Math
+          button.input-group-addon.bg-primary.task-tag Reading
+          div.input-group-addon.bg-primary.task-tag.difficulty-tag
+            div.abc-radio.abc-radio-success
+              input(type='radio', name='difficulty', value='1')
+              label
+            div.abc-radio.abc-radio-warning
+              input(type='radio', name='difficulty', value='2')
+              label
+            div.abc-radio.abc-radio-danger
+              input(type='radio', name='difficulty', value='3', checked)
+              label
+          input.task-date.form-control(type='text',value='1 Week')
+          div.input-group-addon.task-tag
+            i.fa.fa-calendar
 
-  .container(id='container')
 
   script(
     type='text/babel'

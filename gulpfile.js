@@ -25,7 +25,8 @@ const libraries = {
     'www/lib/bower_components/bootstrap/dist/css/bootstrap.css',
     'www/lib/bower_components/font-awesome/css/font-awesome.css',
     'www/lib/bower_components/animate.css/animate.css',
-    'www/lib/bower_components/pikaday/css/pikaday.css'
+    'www/lib/bower_components/pikaday/css/pikaday.css',
+    'www/lib/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
   ]
 }
 
