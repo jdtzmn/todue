@@ -92,6 +92,7 @@ let NewTaskPickaday = React.createClass({
   componentDidMount () {
     let pikaday = new Pikaday({
       field: this.input,
+      theme: 'dark-theme',
       onOpen: () => {
         this.input.value = (new Date()).toDateString()
       },

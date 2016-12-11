@@ -1,6 +1,7 @@
 var $, storage, uuid
 
 $(() => {
+  // new task submit event
   $('.new-task-form').submit((e) => {
     e.preventDefault()
 
@@ -41,4 +42,47 @@ $(() => {
       }
     }
   })
+
+  // navbar-collapse padding event
+  let prevNavbarHeight = 0
+  let adjustTopPadding = () => {
+    if (prevNavbarHeight - $('.navbar-fixed-top').height() !== 0) {
+      $('body').css('padding-top', $('.navbar-fixed-top').height() + 40)
+      prevNavbarHeight = $('.navbar-fixed-top').height()
+      setTimeout(() => { adjustTopPadding() }, 20)
+    } else {
+      $('body').css('padding-top', $('.navbar-fixed-top').height() + 40)
+      prevNavbarHeight = 0
+    }
+  }
+
+  $('button.navbar-toggler').click(() => {
+    setTimeout(() => { adjustTopPadding() }, 80)
+  })
+
+  $(window).resize(() => {
+    adjustTopPadding()
+  })
+
+  adjustTopPadding()
+
+  // task row collapsing event
+  $('.task-row-collapse').click((e) => {
+    let angle = JSON.parse($(e.currentTarget).parents().eq(2).find('.task-collapse').collapse('toggle').attr('aria-expanded')) ? 0 : 180
+    $({deg: angle}).animate({deg: angle + 180}, {
+      duration: 400,
+      step: (val) => {
+        $(e.currentTarget).find('i').css({
+          transform: 'rotate(' + val + 'deg)'
+        })
+      }
+    })
+  })
+
+  // difficulty select event
+  $('.abc-radio').find('input').click(function () {
+    if (window.innerWidth <= 991) $(this).parent().parent().find('.abc-radio').find('input:not(:checked)').parent().animate({width: 'toggle'}, 100)
+  })
+
+  if (window.innerWidth <= 991) $('.abc-radio').find('input:not(:checked)').parents('.difficulty-tag').find('input:checked').parents('.difficulty-tag').find('input:not(:checked)').parent().animate({width: 'toggle'}, 0)
 })

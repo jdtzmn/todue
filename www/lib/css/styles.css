@@ -31,10 +31,6 @@ div.new-task-flex {
   display: flex !important;
 }
 
-.new-task-name {
-  min-width: 200px;
-}
-
 .new-task-tag {
   outline: none !important;
   width: auto;
@@ -48,11 +44,19 @@ div.new-task-flex {
 
 .difficulty {
   order: 2;
+  flex-grow: 1;
   height: 38px !important;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .difficulty:focus option:first-of-type {
     display: none;
+}
+
+.pika-single.dark-theme {
+  border: none !important;
 }
 
 .date-group {
@@ -61,23 +65,16 @@ div.new-task-flex {
 }
 
 .new-task-button {
+  flex-grow: 1;
   order: 4;
   height: 38px;
   background: #3299BB;
   border-color: #3299BB;
 }
 
-@media (min-width: 544px) {
+@media (min-width: 767px) {
   .new-task-button {
     margin-left: 10px;
-  }
-
-  .category {
-    max-width: 233px;
-  }
-
-  .date {
-    max-width: 160px;
   }
 }
 
@@ -95,43 +92,57 @@ div.new-task-flex {
     border-top-left-radius: 5px !important;
     border-bottom-left-radius: 5px !important;
   }
-
-  .task-name {
-    border-top-right-radius: 5px !important;
-    border-bottom-right-radius: 5px !important;
-  }
 }
 
 .task {
-  box-shadow: 0px 0px 10px;
+  border-color: #373a3c;
+  border-radius: 0.25rem;
+  padding: initial;
+  transition: background .2s;
 }
 
 .dif-easy {
   background: #8FEB8F;
-  border: none;
 }
 
 .dif-medium {
   background: #FFFA9B;
-  border: none;
 }
 
 .dif-hard {
   background: #FFA09C;
-  border: none;
 }
 
 .task-input {
   display: flex;
-  flex-direction: row;
   flex-flow: row wrap;
-  justify-content: flex-start;
   margin-right: 20px;
+}
+
+.task-input > .task-row {
+  flex-grow: 2;
+}
+
+.task-checkbox {
+  margin: auto;
+  height: 37.33px;
+}
+
+.task-checkbox > label {
+  width: 37.33px;
+  height: 37.33px;
+  background: inherit;
+}
+
+.task-checkbox > label::before {
+  border-color: rgb(150, 150, 150) !important;
 }
 
 .task-name {
   background: inherit;
   color: #033649;
+  width: auto !important;
+  flex-grow: 20;
   transition: background 0.2s;
   -webkit-transtion: background 0.2s;
 }
@@ -142,7 +153,7 @@ div.new-task-flex {
 
 .task-tag {
   width: auto;
-  flex-grow: 1;
+  flex-grow: 0;
   background: inherit !important;
   color: #55595c !important;
   transition: background 0.2s;
@@ -156,24 +167,97 @@ div.new-task-flex {
   color: #fff !important;
 }
 
+.task-row-collapse {
+  width: auto;
+  flex-grow: 0;
+  background: inherit !important;
+  color: #55595c !important;
+}
+
+.task-row > button.task-tag {
+  flex-grow: 1;
+}
+
 .difficulty-tag {
   display: flex;
   padding-top: 2px;
+  width: auto;
+  flex-grow: 0;
+  background: inherit !important;
+  color: #55595c !important;
 }
 
-input[name="difficulty"] {
+.abc-radio input[type="radio"] {
   position: relative;
-  top: 6px;
-  left: -5px;
+  top: 7px;
+  left: -5.5px;
+}
+
+.abc-radio input[type=radio]:focus + label::before {
+    outline: none;
 }
 
 .task-date {
+  min-width: 155px;
   background: inherit;
-  max-width: 110px;
   transition: background 0.2s;
   -webkit-transtion: background 0.2s;
 }
 
 .task-date:focus {
   color: #033649;
+}
+
+.date-tag {
+  width: auto;
+  background: inherit !important;
+  color: #55595c !important;
+}
+
+.task-collapse {
+  width: 100%;
+  flex-shrink: 1.5;
+}
+
+.task-row {
+  display: flex;
+  width: 100%;
+}
+
+/* style for desktop devices */
+
+@media (min-width: 767px) {
+  .task-row {
+    width: 100%;
+  }
+
+  .task-input {
+    flex-flow: row nowrap;
+  }
+
+  .task-collapse {
+    display: flex;
+  }
+
+  .task-row-collapse {
+    display: none;
+  }
+
+  .task-tag, .difficulty-tag {
+    border-radius: 0;
+    border-right: 1px solid rgba(0,0,0,0.15) !important;
+  }
+
+  .date-tag {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
+}
+
+/* style for tablet devices */
+
+@media (max-width: 991px) {
+  .task-collapse {
+    flex-flow: row wrap;
+  }
 }
