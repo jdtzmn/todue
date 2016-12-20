@@ -113,6 +113,30 @@ div.new-task-flex {
   background: #FFA09C;
 }
 
+.task-checked {
+  transition-delay: .3s;
+  background: rgba(255, 255, 255, 0.3)
+}
+
+.task-checked .task-checkbox>label::after {
+  border-color: rgba(20, 20, 20, 0.7) !important;
+  transition: border-color .4s;
+  transition-delay: .3s;
+}
+
+.task-checked .abc-radio input[type="radio"]:checked+label::after {
+  background: rgba(255, 255, 255, 0);
+  transition: background .4s;
+  transition-delay: .2s;
+}
+
+.task-checked .abc-radio input[type="radio"]+label::before {
+  border-color: rgba(20, 20, 20, 0.7);
+  background: rgba(20, 20, 20, 0.2);
+  transition: background .4s, border-color .4s;
+  transition-delay: .2s;
+}
+
 .task-input {
   display: flex;
   flex-flow: row wrap;

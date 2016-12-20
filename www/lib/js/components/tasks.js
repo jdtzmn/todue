@@ -12,12 +12,18 @@ let TaskList = React.createClass({
 let Task = React.createClass({
   getInitialState () {
     return {
-      difficulty: this.props.task.difficulty
+      difficulty: this.props.task.difficulty,
+      checked: this.props.task.checked
     }
   },
   difficultyChange (e) {
     this.setState({
       difficulty: e.target.value
+    })
+  },
+  checkboxChange (e) {
+    this.setState({
+      checked: e.target.checked
     })
   },
   render () {
@@ -31,11 +37,14 @@ let Task = React.createClass({
           return 'dif-hard'
       }
     })()
+
+    let checked = this.state.checked ? 'task-checked' : ''
+
     return (
-      <li className={'task list-group-item '.concat(difficulty)}>
+      <li className={'task list-group-item '.concat(difficulty, ' ', checked)}>
         <div className='task-input input-group'>
           <div className='task-row'>
-            <TaskCheckbox uuid={this.props.task.id} />
+            <TaskCheckbox uuid={this.props.task.id} change = {this.checkboxChange} />
             <TaskInput value={this.props.task.name} />
             <TaskCollapse />
           </div>
@@ -59,7 +68,7 @@ let TaskCheckbox = React.createClass({
   render () {
     return (
       <div className='animated-checkbox task-checkbox'>
-        <input id={this.props.uuid} type='checkbox' />
+        <input id={this.props.uuid} onChange={this.props.change} type='checkbox' />
         <label htmlFor={this.props.uuid} />
       </div>
     )
@@ -144,6 +153,7 @@ ReactDOM.render(<TaskList tasks={[
   {
     id: '640dd626-b189-11e6-80f5-76304dec7eb7',
     name: 'P.130#1-7',
+    checked: false,
     tags: ['Hard', 'Math', 'Reading'],
     difficulty: 1,
     date: '1 Week'
@@ -151,8 +161,10 @@ ReactDOM.render(<TaskList tasks={[
   {
     id: 'b5271a60-b18c-11e6-80f5-76304dec7eb7',
     name: '',
+    checked: true,
     tags: [],
     difficulty: undefined,
-    date: undefined
+    date: undefined,
+    checked: false
   }
 ]} />, $('.container')[0])
