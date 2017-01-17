@@ -16,6 +16,8 @@
     "node-uuid": "^1.4.7",
     "animate.css": "^3.5.2",
     "pikaday": "https://github.com/dbushell/Pikaday.git#^1.4.0",
-    "awesome-bootstrap-checkbox": "v1.0.0-alpha.4"
+    "awesome-bootstrap-checkbox": "v1.0.0-alpha.4",
+    "moment": "^2.17.1",
+    "sugar": "^2.0.4"
   }
 }

@@ -1,5 +1,6 @@
 var React, ReactDOM, Pikaday, $, pull
 
+/*
 let NewTaskTag = React.createClass({
   propTypes: {
     keypress: React.PropTypes.func.isRequired,
@@ -69,12 +70,14 @@ let NewTaskInput = React.createClass({
 let NewTaskDifficultyDropdown = React.createClass({
   render: function () {
     return (
-      <select className='form-control difficulty'>
-        <option defaultValue>Difficulty</option>
-        <option value='1'>Easy</option>
-        <option value='2'>Medium</option>
-        <option value='3'>Hard</option>
-      </select>
+      <div className="difficulty-wrapper">
+        <select className='form-control difficulty'>
+          <option defaultValue>Difficulty</option>
+          <option value='1'>Easy</option>
+          <option value='2'>Medium</option>
+          <option value='3'>Hard</option>
+        </select>
+      </div>
     )
   }
 })
@@ -126,3 +129,4 @@ let Navbar = React.createClass({
 })
 
 ReactDOM.render(<Navbar />, $('.new-task-form')[0])
+*/

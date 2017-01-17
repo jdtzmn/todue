@@ -3,17 +3,18 @@ let Storage = function () {
     return new Storage()
   }
 
-  this.storage = window.localStorage
-
   this.get = (e) => {
     let data = window.localStorage
     if (e) data = window.localStorage[e] ? window.localStorage[e] : undefined
     return data
   }
 
+  this.storage = this.get()
+
   this.set = (a, b) => {
     if (!a || !b) return new Error('key and value must not be blank')
     let data = this.storage
+    if (typeof b === 'object') b = JSON.stringify(b)
     if (data) {
       window.localStorage[a] = b
       this.storage[a] = b

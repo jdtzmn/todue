@@ -1,0 +1,23 @@
+html {
+  height: 100%;
+}
+body {
+  padding-top: 70px;
+}
+
+.bg-inverse {
+  background: #4A536B;
+}
+
+.todue-brand {
+  color: white;
+}
+
+button.navbar-toggler {
+  color: #3299bb;
+  outline: none;
+}
+
+.pika-single.dark-theme {
+  border: none !important;
+}

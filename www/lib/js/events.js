@@ -78,11 +78,4 @@ $(() => {
       }
     })
   })
-
-  // difficulty select event
-  $('.abc-radio').find('input').click(function () {
-    if (window.innerWidth <= 991) $(this).parent().parent().find('.abc-radio').find('input:not(:checked)').parent().animate({width: 'toggle'}, 100)
-  })
-
-  if (window.innerWidth <= 991) $('.abc-radio').find('input:not(:checked)').parents('.difficulty-tag').find('input:checked').parents('.difficulty-tag').find('input:not(:checked)').parent().animate({width: 'toggle'}, 0)
 })

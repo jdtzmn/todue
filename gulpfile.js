@@ -19,14 +19,15 @@ const libraries = {
     'www/lib/bower_components/react/react-dom.js',
     'www/lib/bower_components/babel/browser.js',
     'www/lib/bower_components/node-uuid/uuid.js',
-    'www/lib/bower_components/pikaday/pikaday.js'
+    'www/lib/bower_components/moment/min/moment.min.js',
+    'www/lib/bower_components/pikaday/pikaday.js',
+    'www/lib/bower_components/sugar/dist/sugar.min.js'
   ],
   css: [
     'www/lib/bower_components/bootstrap/dist/css/bootstrap.css',
     'www/lib/bower_components/font-awesome/css/font-awesome.css',
     'www/lib/bower_components/animate.css/animate.css',
     'www/lib/bower_components/pikaday/css/pikaday.css',
-    'www/lib/bower_components/pikaday/css/theme.css',
     'www/lib/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
   ]
 }
@@ -84,7 +85,7 @@ gulp.task('watch', () => {
   gulp.start(['js'])
   gulp.start(['css'])
   gulp.watch('www/lib/js/**/*.js', ['js'])
-  gulp.watch('www/dist/bootstrap_components/**/*.js', ['js-lib'])
+  gulp.watch('www/lib/bootstrap_components/**/*.js', ['js-lib'])
   gulp.watch('www/lib/css/**/*.css', ['css'])
 })
 
