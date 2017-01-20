@@ -1,11 +1,19 @@
-var React, ReactDOM, Pikaday, $, moment, Sugar, pull
+var React, ReactDOM, Pikaday, $, moment, Sugar, pull, Sortable
 
 let TaskList = React.createClass({
+  componentDidMount () {
+    Sortable.create(document.getElementById('task-list'), {
+      animation: 150,
+      onEnd: (e) => {
+        data.move(e.oldIndex, e.newIndex)
+      }
+    })
+  },
   render () {
     let tasks = this.props.tasks.map((task, i) => {
       return <Task task={task} key={i} />
     })
-    return <ul className='list-group'>{tasks}</ul>
+    return <ul id='task-list' className='list-group'>{tasks}</ul>
   }
 })
 
@@ -37,8 +45,8 @@ let Task = React.createClass({
       matches[match[1]] = match[0]
       match = regex.exec(value)
     }
-    if (e.keyCode === 32 || e.keyCode === 13 || e.keyCode === 9) {
-      value = element.value = value.replace(/\B#\B/g, '')
+    if (e.keyCode === 32 || e.keyCode === 13 || e.keyCode === 9 || e.type === 'blur') {
+      if (value !== value.replace(/\B#\B/g, '')) value = element.value = value.replace(/\B#\B/g, '')
       this.setState({
         tags: this.state.tags.concat(Object.keys(matches))
       })
@@ -106,7 +114,7 @@ let TaskInput = React.createClass({
   render () {
     return (
       <div className='task-input-group'>
-        <input className='task-name form-control' type='text' defaultValue={this.props.value} onKeyUp={this.props.addTags} />
+        <input className='task-name form-control' type='text' defaultValue={this.props.value} onKeyUp={this.props.addTags} onBlur={this.props.addTags} />
       </div>
     )
   }
@@ -168,7 +176,7 @@ let TaskDate = React.createClass({
           this.input.value = moment(pikaday.getDate()).calendar(null, {
             sameDay: '[Today]',
             nextDay: '[Tomorrow]',
-            nextWeek: 'dddd',
+            nextWeek: 'd [Days]',
             lastDay: '[Yesterday]',
             lastWeek: '[Last] dddd',
             sameElse: 'DD/MM/YYYY'
@@ -179,12 +187,13 @@ let TaskDate = React.createClass({
       },
       onSelect: () => {
         if (pikaday.getDate() !== Sugar.Date.create(this.input.value)) {
+          let countdown = (moment(pikaday.getDate()).diff(moment(), 'days') + 1)
           this.input.value = moment(pikaday.getDate()).calendar(null, {
             sameDay: '[Today]',
             nextDay: '[Tomorrow]',
-            nextWeek: 'dddd',
+            nextWeek: countdown + ' [days]',
             lastDay: '[Yesterday]',
-            lastWeek: '[Last] dddd',
+            lastWeek: Math.abs(countdown - 1) + ' [days late]',
             sameElse: 'DD/MM/YYYY'
           })
         }
@@ -204,7 +213,7 @@ let TaskDate = React.createClass({
   }
 })
 
-ReactDOM.render(<TaskList tasks={[
+let data = [
   {
     id: '640dd626-b189-11e6-80f5-76304dec7eb7',
     name: 'P.130#1-7',
@@ -221,4 +230,6 @@ ReactDOM.render(<TaskList tasks={[
     difficulty: 2,
     date: undefined
   }
-]} />, $('.container')[0])
+]
+
+ReactDOM.render(<TaskList tasks={data} />, $('.container')[0])

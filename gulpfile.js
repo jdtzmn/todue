@@ -21,7 +21,8 @@ const libraries = {
     'www/lib/bower_components/node-uuid/uuid.js',
     'www/lib/bower_components/moment/min/moment.min.js',
     'www/lib/bower_components/pikaday/pikaday.js',
-    'www/lib/bower_components/sugar/dist/sugar.min.js'
+    'www/lib/bower_components/sugar/dist/sugar.min.js',
+    'www/lib/bower_components/Sortable/Sortable.min.js'
   ],
   css: [
     'www/lib/bower_components/bootstrap/dist/css/bootstrap.css',

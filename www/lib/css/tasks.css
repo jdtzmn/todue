@@ -19,11 +19,11 @@
 
 .task-checked {
   transition-delay: .3s;
-  background: #F5F5F5
+  background: #f7f7f7
 }
 
 .task-checked .task-checkbox>label::after {
-  border-color: rgba(20, 20, 20, 0.7) !important;
+  border-color: #BBBFC2 !important;
   transition: border-color .4s;
   transition-delay: .3s;
 }
@@ -38,11 +38,13 @@
   border-color: rgba(20, 20, 20, 0.7);
   background: rgba(20, 20, 20, 0.2);
   transition: background .4s, border-color .4s;
-  transition-delay: .2s;
+  transition-delay: .3s;
 }
 
-.task-checked .task-name {
-  color: #55595c;
+.task-checked .task-name, .task-checked .task-date, .task-checked .date-tag, .task-checked .task-tag, .task-checked .task-dropdown {
+  color: #BBBFC2 !important;
+  transition: color .4s;
+  transition-delay: .3s;
 }
 
 .task-input {
@@ -144,8 +146,8 @@
 }
 
 .task-tag:focus {
-  background: #3299bb !important;
-  color: #fff !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: #033649 !important;
   outline: none;
 }
 
@@ -201,6 +203,7 @@
 }
 
 .date-tag {
+  cursor: -webkit-grab;
   width: auto;
   border: none;
   background: inherit !important;
