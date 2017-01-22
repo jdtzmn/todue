@@ -1,11 +1,23 @@
-var React, ReactDOM, Pikaday, $, moment, Sugar, pull, Sortable
+var React, ReactDOM, Pikaday, $, moment, Sugar, pull, Sortable, storage
 
 let TaskList = React.createClass({
   componentDidMount () {
     Sortable.create(document.getElementById('task-list'), {
+      group: 'tasks',
       animation: 150,
+      handle: '.date-tag',
+      onStart: (e) => {
+        $('.task-delete-box').addClass('visible')
+      },
+      onRemove: (e) => {
+        let id = e.item.attributes[1].nodeValue
+        storage.tasks.remove(storage.tasks.get(id))
+      },
       onEnd: (e) => {
-        data.move(e.oldIndex, e.newIndex)
+        let tasks = storage.tasks.get()
+        tasks.splice(e.newIndex, 0, tasks.splice(e.oldIndex, 1)[0])
+        storage.set('tasks', tasks)
+        $('.task-delete-box.visible').removeClass('visible')
       }
     })
   },
@@ -13,7 +25,12 @@ let TaskList = React.createClass({
     let tasks = this.props.tasks.map((task, i) => {
       return <Task task={task} key={i} />
     })
-    return <ul id='task-list' className='list-group'>{tasks}</ul>
+    return (
+      <ul id='task-list' className='list-group'>
+        {tasks}
+        <TaskDeleteBox />
+      </ul>
+    )
   }
 })
 
@@ -45,7 +62,7 @@ let Task = React.createClass({
       matches[match[1]] = match[0]
       match = regex.exec(value)
     }
-    if (e.keyCode === 32 || e.keyCode === 13 || e.keyCode === 9 || e.type === 'blur') {
+    if (e.keyCode === 32 || e.keyCode === 13 || e.type === 'blur') {
       if (value !== value.replace(/\B#\B/g, '')) value = element.value = value.replace(/\B#\B/g, '')
       this.setState({
         tags: this.state.tags.concat(Object.keys(matches))
@@ -55,7 +72,7 @@ let Task = React.createClass({
   },
   removeTags (e) {
     let element = e.nativeEvent.target.children.length ? e.nativeEvent.target : e.nativeEvent.target.parentElement
-    let text = element.textContent.slice(0, -1)
+    let text = element.textContent
     if (!e.keyCode || e.keyCode === 8) {
       $(element).next().length ? $(element).next().prev().focus() : $(element).prev().focus()
       this.setState({
@@ -84,7 +101,7 @@ let Task = React.createClass({
     let checked = this.state.checked ? 'task-checked' : ''
 
     return (
-      <li className={'task list-group-item '.concat(difficulty, ' ', checked)}>
+      <li className={'task list-group-item '.concat(difficulty, ' ', checked)} data-id={this.props.task.id}>
         <div className='task-input input-group'>
           <TaskCheckbox checked={this.props.task.checked} uuid={this.props.task.id} change={this.checkboxChange} />
           <TaskInput value={this.props.task.name} uuid={this.props.task.id} addTags={this.addTags} />
@@ -131,7 +148,7 @@ let TaskTagList = React.createClass({
               this.props.tags.map((tag, i) => {
                 return (
                   <div className='dropdown-item task-dropdown-item' key={i}>
-                    <span className='task-dropdown-item-text'>{tag} </span>
+                    <span className='task-dropdown-item-text'>{tag}</span>
                     <i className='fa fa-times pull-right' onClick={this.props.removeTags} />
                   </div>
                 )
@@ -144,7 +161,7 @@ let TaskTagList = React.createClass({
             this.props.tags.map((tag, i) => {
               return (
                 <button className='task-tag input-group-addon bg-primary' onKeyDown={this.props.removeTags} onClick={(e) => { e.preventDefault() }} key={i}>
-                  <i className='fa fa-hashtag' />{tag} <i className='fa fa-times' onClick={this.props.removeTags} />
+                  <i className='fa fa-hashtag' />{tag}<i className='fa fa-times pull-right' onClick={this.props.removeTags} />
                 </button>
               )
             })
@@ -213,23 +230,25 @@ let TaskDate = React.createClass({
   }
 })
 
-let data = [
-  {
-    id: '640dd626-b189-11e6-80f5-76304dec7eb7',
-    name: 'P.130#1-7',
-    checked: false,
-    tags: ['Hard', 'Math', 'Reading', 'Books', 'Really Long One', 'Really Really Long One', 'Impossibly Long One'],
-    difficulty: 1,
-    date: 'Tomorrow'
+let TaskDeleteBox = React.createClass({
+  componentDidMount () {
+    Sortable.create(document.getElementById('task-delete-box'), {
+      group: 'tasks',
+      onAdd: (e) => {
+        setTimeout(() => {
+          e.item.parentNode.removeChild(e.item)
+        }, 400)
+      }
+    })
   },
-  {
-    id: 'b5271a60-b18c-11e6-80f5-76304dec7eb7',
-    name: 'Clean the car',
-    checked: true,
-    tags: ['Chores'],
-    difficulty: 2,
-    date: undefined
+  render () {
+    return <div id='task-delete-box' className='container task-delete-box' />
   }
-]
+})
 
-ReactDOM.render(<TaskList tasks={data} />, $('.container')[0])
+storage.tasks.render = (tasks) => {
+  if (!tasks) tasks = storage.tasks.get()
+  ReactDOM.render(<TaskList tasks={tasks} />, $('.container')[0])
+}
+
+storage.tasks.render()

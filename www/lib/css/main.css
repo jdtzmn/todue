@@ -6,16 +6,11 @@ body {
 }
 
 .bg-inverse {
-  background: #4A536B;
+  background: #4A536B !important;
 }
 
-.todue-brand {
-  color: white;
-}
-
-button.navbar-toggler {
-  color: #3299bb;
-  outline: none;
+.collapse.in {
+  display: block;
 }
 
 .pika-single.dark-theme {

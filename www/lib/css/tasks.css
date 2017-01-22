@@ -50,7 +50,6 @@
 .task-input {
   display: flex;
   flex-flow: row nowrap;
-  margin-right: 20px;
 }
 
 .task-checkbox {
@@ -85,8 +84,8 @@
 }
 
 .task-name:focus {
-  background: rgba(0, 0, 0, 0.08);
-  color: #033649;
+  background: rgba(0, 0, 0, 0.02);
+  color: #033649 !important;
 }
 
 .task-tag-list-container {
@@ -107,6 +106,10 @@
 .task-dropdown.open {
   background: rgba(0, 0, 0, 0.08);
   color: #033649;
+}
+
+.task-dropdown.open .dropdown-menu {
+  display: block;
 }
 
 .task-dropdown-item .fa-times {
@@ -134,11 +137,14 @@
 
 .task-tag {
   width: auto;
+  padding-top: 10px;
   border-radius: 0;
   border-top: none;
   border-bottom: none;
   background: inherit !important;
   color: #55595c !important;
+  flex-direction: row;
+  -webkit-flex-direction: row;
   transition: background 0.2s;
   -webkit-transtion: background 0.2s;
   transition: color 0.2s;
@@ -152,18 +158,7 @@
 }
 
 .task-tag .fa-times {
-  padding-top: 4px;
-}
-
-.task-row-collapse {
-  width: auto;
-  flex-grow: 0;
-  background: inherit !important;
-  color: #55595c !important;
-}
-
-.task-row > button.task-tag {
-  flex-grow: 1;
+  padding-top: 1px;
 }
 
 .difficulty-tag {
@@ -198,7 +193,7 @@
 }
 
 .task-date:focus {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.02) !important;
   color: #033649;
 }
 
@@ -215,7 +210,26 @@
   flex-shrink: 1.5;
 }
 
-.task-row {
-  display: flex;
-  width: 100%;
+.task-delete-box {
+  border-radius: .25rem;
+  border: 5px dashed #d9534f !important;
+  position: fixed;
+  bottom: -70px;
+  left: 0px;
+  right: 0px;
+  padding: 0;
+  animation: hideDeleteBox 0.4s forwards;
+  min-height: 70px;
+}
+
+.task-delete-box.visible { animation: showDeleteBox 0.4s forwards }
+
+@keyframes hideDeleteBox {
+  0% {bottom: -5px}
+  100% {bottom: -70px}
+}
+
+@keyframes showDeleteBox {
+  0% {bottom: -70px}
+  100% {bottom: -5px}
 }
