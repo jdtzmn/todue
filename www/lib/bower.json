@@ -10,7 +10,7 @@
   "private": true,
   "dependencies": {
     "font-awesome": "fontawesome#^4.6.3",
-    "bootstrap": "v4.0.0-alpha.3",
+    "bootstrap": "v4.0.0-alpha.6",
     "react": "^15.3.1",
     "babel": "5.8.38",
     "node-uuid": "^1.4.7",
