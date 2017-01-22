@@ -7,10 +7,22 @@ head
   script(src='/js/libraries.min.js', charset='utf-8')
   script(src='/socket.io/socket.io.js', charset='utf-8')
 body
-  nav.navbar.navbar-fixed-top.bg-inverse
+  nav.navbar.navbar-inverse.fixed-top.navbar-toggleable-md.bg-inverse
+    button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbar')
+      span.navbar-toggler-icon
     a.navbar-brand(href='/')
-      b.todue-brand todue
+      b  todue
+    div.collapse.navbar-collapse#navbar
+      ul.navbar-nav
+        li.nav-item
+          a.nav-link.add-task(href='#')
+            i.fa.fa-plus
+            |  Add Task
 
+        li.nav-item
+          a.nav-link.remove-task(href='#')
+            i.fa.fa-minus
+            |  Remove Task
   .container
 
   script(src='/js/scripts.min.js', charset='utf-8')
