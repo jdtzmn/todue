@@ -218,11 +218,14 @@
   left: 0px;
   right: 0px;
   padding: 0;
-  animation: hideDeleteBox 0.4s forwards;
   min-height: 70px;
 }
 
-.task-delete-box.visible { animation: showDeleteBox 0.4s forwards }
+.task-delete-box.animated {
+  animation: hideDeleteBox 0.4s forwards;
+}
+
+.task-delete-box.animated.visible { animation: showDeleteBox 0.4s forwards }
 
 @keyframes hideDeleteBox {
   0% {bottom: -5px}

@@ -35,7 +35,9 @@ $(() => {
   })
 
   $('.remove-task').click(() => {
+    $('.task-delete-box').addClass('animated')
     $('.task-delete-box.visible').length ? $('.task-delete-box.visible').removeClass('visible') : $('.task-delete-box').addClass('visible')
+    $('.date-tag .fa-calendar').length ? $('.date-tag .fa-calendar').removeClass('fa-calendar').addClass('fa-arrows') : $('.date-tag .fa-arrows').removeClass('fa-arrows').addClass('fa-calendar')
     $('.navbar-collapse').collapse('hide')
     adjustTopPadding()
   })

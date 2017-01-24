@@ -7,6 +7,7 @@ let TaskList = React.createClass({
       animation: 150,
       handle: '.date-tag',
       onStart: (e) => {
+        $('.task-delete-box').addClass('animated')
         $('.task-delete-box').addClass('visible')
       },
       onRemove: (e) => {
@@ -18,6 +19,7 @@ let TaskList = React.createClass({
         tasks.splice(e.newIndex, 0, tasks.splice(e.oldIndex, 1)[0])
         storage.set('tasks', tasks)
         $('.task-delete-box.visible').removeClass('visible')
+        $('.date-tag .fa-arrows').removeClass('fa-arrows').addClass('fa-calendar')
       }
     })
   },
@@ -237,6 +239,8 @@ let TaskDeleteBox = React.createClass({
       onAdd: (e) => {
         setTimeout(() => {
           e.item.parentNode.removeChild(e.item)
+          e.from.appendChild(e.item)
+          storage.tasks.render()
         }, 400)
       }
     })
