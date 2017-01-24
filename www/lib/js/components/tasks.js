@@ -185,7 +185,7 @@ let TaskDate = React.createClass({
       lastWeek: '[Last] dddd',
       sameElse: 'DD/MM/YYYY'
     }) : this.props.date
-    return <input className='task-date form-control' type='text' readOnly={/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)} defaultValue={date} ref={function (r) { t.input = r }} />
+    return <input className='task-date form-control text-capitalize' type='text' readOnly={/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)} defaultValue={date} ref={function (r) { t.input = r }} />
   },
   componentDidMount () {
     let pikaday = new Pikaday({
@@ -198,10 +198,8 @@ let TaskDate = React.createClass({
             nextWeek: 'd [Days]',
             lastDay: '[Yesterday]',
             lastWeek: '[Last] dddd',
-            sameElse: 'DD/MM/YYYY'
+            sameElse: 'MM/DD/YYYY'
           })
-        } else {
-          this.input.value = this.input.value.charAt(0).toUpperCase() + this.input.value.slice(1)
         }
       },
       onSelect: () => {
@@ -213,7 +211,7 @@ let TaskDate = React.createClass({
             nextWeek: countdown + ' [days]',
             lastDay: '[Yesterday]',
             lastWeek: Math.abs(countdown - 1) + ' [days late]',
-            sameElse: 'DD/MM/YYYY'
+            sameElse: 'MM/DD/YYYY'
           })
         }
       }

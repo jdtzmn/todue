@@ -62,6 +62,16 @@ let Storage = function () {
       })
       return this.tasks.set(tasks)
     },
+    setTaskProperty: (id, a, b) => {
+      if (typeof id === 'object') id = id.id
+      let tasks = this.tasks.get()
+      for (let i in tasks) {
+        if (tasks[i].id === id) {
+          tasks[i][a] = b
+        }
+      }
+      return this.tasks.set(tasks)
+    },
     set: (tasks) => {
       storage.set('tasks', tasks)
       return this.tasks.get()
