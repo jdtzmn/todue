@@ -177,30 +177,25 @@ let TaskTagList = React.createClass({
 let TaskDate = React.createClass({
   render () {
     let t = this
-    let date = Sugar.Date(this.props.date).isValid().raw ? moment(Sugar.Date(this.props.date)).calendar(null, {
-      sameDay: '[Today]',
-      nextDay: '[Tomorrow]',
-      nextWeek: 'dddd',
-      lastDay: '[Yesterday]',
-      lastWeek: '[Last] dddd',
-      sameElse: 'DD/MM/YYYY'
-    }) : this.props.date
-    return <input className='task-date form-control text-capitalize' type='text' readOnly={/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)} defaultValue={date} ref={function (r) { t.input = r }} />
+    return <input className='task-date form-control text-capitalize' type='text' readOnly={/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)} defaultValue={this.props.date} ref={function (r) { t.input = r }} />
   },
   componentDidMount () {
     let pikaday = new Pikaday({
       field: this.input,
       onClose: () => {
+        console.log(this.props.date)
         if (this.input.value && Sugar.Date(this.input.value).isValid().raw) {
+          let countdown = (moment(pikaday.getDate()).diff(moment(), 'days') + 1)
           this.input.value = moment(pikaday.getDate()).calendar(null, {
             sameDay: '[Today]',
             nextDay: '[Tomorrow]',
-            nextWeek: 'd [Days]',
+            nextWeek: countdown + ' [Days]',
             lastDay: '[Yesterday]',
-            lastWeek: '[Last] dddd',
+            lastWeek: Math.abs(countdown - 1) + ' [days late]',
             sameElse: 'MM/DD/YYYY'
           })
         }
+        storage.tasks.setTaskProperty($(this.input).parents('.task').attr('data-id'), 'date', this.input.value)
       },
       onSelect: () => {
         if (pikaday.getDate() !== Sugar.Date.create(this.input.value)) {
