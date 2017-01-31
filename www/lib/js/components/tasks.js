@@ -65,16 +65,38 @@ let Task = React.createClass({
       match = regex.exec(value)
     }
     if (e.keyCode === 32 || e.keyCode === 13 || e.type === 'blur') {
+      if (Object.keys(matches).length) {
+        switch (Object.keys(matches)[0].toUpperCase()) {
+          case 'EASY':
+            this.setState({
+              difficulty: 1
+            })
+            break
+          case 'MEDIUM':
+            this.setState({
+              difficulty: 2
+            })
+            break
+          case 'HARD':
+            this.setState({
+              difficulty: 3
+            })
+        }
+      }
       if (value !== value.replace(/\B#\B/g, '')) value = element.value = value.replace(/\B#\B/g, '')
       this.setState({
         tags: this.state.tags.concat(Object.keys(matches))
       })
       element.value = value.replace(/\B#\S+ ?/g, '#')
+      $(element).trigger('input')
     }
   },
   removeTags (e) {
     let element = e.nativeEvent.target.children.length ? e.nativeEvent.target : e.nativeEvent.target.parentElement
     let text = element.textContent
+
+    if (text.toUpperCase() === 'EASY' || text.toUpperCase() === 'MEDIUM' || text.toUpperCase() === 'HARD') this.setState({ difficulty: 0 })
+
     if (!e.keyCode || e.keyCode === 8) {
       $(element).next().length ? $(element).next().prev().focus() : $(element).prev().focus()
       this.setState({
@@ -88,9 +110,16 @@ let Task = React.createClass({
       e.shiftKey ? $('.task-tag').first().focus() : $('.task-tag').last().focus()
     }
   },
+  componentWillUpdate (nextProps, nextState) {
+    storage.tasks.setTaskProperty(this.props.task.id, 'tags', nextState.tags)
+    storage.tasks.setTaskProperty(this.props.task.id, 'checked', nextState.checked)
+    storage.tasks.setTaskProperty(this.props.task.id, 'difficulty', nextState.difficulty)
+  },
   render () {
     let difficulty = (() => {
       switch (+this.state.difficulty) {
+        case 0:
+          return ''
         case 1:
           return 'dif-easy'
         case 2:
@@ -131,11 +160,17 @@ let TaskCheckbox = React.createClass({
 
 let TaskInput = React.createClass({
   render () {
+    let t = this
     return (
       <div className='task-input-group'>
-        <input className='task-name form-control' type='text' defaultValue={this.props.value} onKeyUp={this.props.addTags} onBlur={this.props.addTags} />
+        <input className='task-name form-control' type='text' defaultValue={this.props.value} onKeyUp={this.props.addTags} onBlur={this.props.addTags} ref={function (r) { t.input = r }} />
       </div>
     )
+  },
+  componentDidMount () {
+    $(this.input).on('input', (e) => {
+      storage.tasks.setTaskProperty(this.props.uuid, 'name', this.input.value)
+    })
   }
 })
 
@@ -210,6 +245,7 @@ let TaskDate = React.createClass({
         storage.tasks.setTaskProperty($(this.input).parents('.task').attr('data-id'), 'date', date)
       },
       onSelect: () => {
+        date = pikaday.getDate()
         if (pikaday.getDate() !== Sugar.Date.create(this.input.value)) {
           let countdown = (moment(pikaday.getDate()).diff(moment(), 'days') + 1)
           this.input.value = moment(pikaday.getDate()).calendar(null, {
