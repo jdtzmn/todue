@@ -177,13 +177,25 @@ let TaskTagList = React.createClass({
 let TaskDate = React.createClass({
   render () {
     let t = this
-    return <input className='task-date form-control text-capitalize' type='text' readOnly={/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)} defaultValue={this.props.date} ref={function (r) { t.input = r }} />
+    let date = this.props.date
+    if (date && Sugar.Date(date).isValid().raw) {
+      let countdown = (moment(date).diff(moment(), 'days') + 1)
+      date = moment(date).calendar(null, {
+        sameDay: '[Today]',
+        nextDay: '[Tomorrow]',
+        nextWeek: countdown + ' [Days]',
+        lastDay: '[Yesterday]',
+        lastWeek: Math.abs(countdown - 1) + ' [days late]',
+        sameElse: 'MM/DD/YYYY'
+      })
+    }
+    return <input className='task-date form-control text-capitalize' type='text' readOnly={/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)} defaultValue={date} ref={function (r) { t.input = r }} />
   },
   componentDidMount () {
+    let date = this.input.value
     let pikaday = new Pikaday({
       field: this.input,
       onClose: () => {
-        console.log(this.props.date)
         if (this.input.value && Sugar.Date(this.input.value).isValid().raw) {
           let countdown = (moment(pikaday.getDate()).diff(moment(), 'days') + 1)
           this.input.value = moment(pikaday.getDate()).calendar(null, {
@@ -195,7 +207,7 @@ let TaskDate = React.createClass({
             sameElse: 'MM/DD/YYYY'
           })
         }
-        storage.tasks.setTaskProperty($(this.input).parents('.task').attr('data-id'), 'date', this.input.value)
+        storage.tasks.setTaskProperty($(this.input).parents('.task').attr('data-id'), 'date', date)
       },
       onSelect: () => {
         if (pikaday.getDate() !== Sugar.Date.create(this.input.value)) {
@@ -215,13 +227,17 @@ let TaskDate = React.createClass({
     $(this.input).on('input', () => {
       let val = this.input.value
       if (Sugar.Date(this.input.value).isValid().raw) {
+        date = Sugar.Date.create(val)
         pikaday.setDate(Sugar.Date.create(val))
         this.input.value = val
+      } else {
+        date = this.input.value
       }
     }).click(() => {
       this.input.select()
     })
     pikaday
+    this.input.value = date
   }
 })
 
