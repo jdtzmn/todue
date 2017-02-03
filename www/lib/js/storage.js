@@ -1,29 +1,56 @@
+var loggedIn, $
+
 let Storage = function () {
   if (!(this.constructor === Storage)) {
     return new Storage()
   }
 
-  this.get = (e) => {
-    let data = window.localStorage
-    if (e) data = window.localStorage[e] ? window.localStorage[e] : undefined
-    let isJSON = true
-    try { JSON.parse(data) } catch (e) { isJSON = false }
-    return isJSON ? JSON.parse(data) : data
+  this.get = (e, cb) => {
+    let data = {}
+    if (loggedIn) {
+      $.get('/tasks/get', (res) => {
+        data = res
+        if (e && typeof e !== 'function') data = data[e] ? data[e] : undefined
+        let isJSON = true
+        if (typeof data !== 'object') {
+          try { JSON.parse(data) } catch (e) { isJSON = false }
+        } else {
+          isJSON = false
+        }
+        if (typeof e === 'function') cb = e
+        if (cb) cb(isJSON ? JSON.parse(data) : data)
+      })
+    } else {
+      data = JSON.parse(JSON.stringify(window.localStorage))
+      if (e && typeof e !== 'function') data = data[e] ? data[e] : undefined
+      let isJSON = true
+      try { JSON.parse(data) } catch (e) { isJSON = false }
+      data = isJSON ? JSON.parse(data) : data
+      for (var i in data) {
+        let isJSON = true
+        try { JSON.parse(data[i]) } catch (e) { isJSON = false }
+        data[i] = isJSON ? JSON.parse(data[i]) : data[i]
+      }
+      if (typeof e === 'function') cb = e
+      if (cb) cb(data)
+    }
   }
 
-  this.local = this.get()
+  this.local = {}
+  this.get((data) => {
+    this.local = data
+  })
 
-  this.set = (a, b) => {
+  this.set = (a, b, push) => {
     if (!a || !b) return new Error('key and value must not be blank')
-    let data = this.local
-    if (typeof b === 'object') b = JSON.stringify(b)
-    if (data) {
-      window.localStorage[a] = b
+    if (loggedIn) {
       this.local[a] = b
+      this.push()
     } else {
-
+      window.localStorage[a] = JSON.stringify(b)
+      this.local[a] = b
     }
-    return this.get()
+    return this.local
   }
 
   this.remove = (a) => {
@@ -38,15 +65,19 @@ let Storage = function () {
     return this.get()
   }
 
+  this.push = (cb) => {
+    $.get('/tasks/set', { tasks: this.local }).done(() => { if (cb) cb() })
+  }
+
   this.tasks = {
     get: (id) => {
       if (id) {
-        return (this.get('tasks') || []).filter((e) => {
-          return e !== null && e.id === id
+        return (this.local.tasks || []).filter((e) => {
+          return e && e.id === id
         })[0]
       } else {
-        return (this.get('tasks') || []).filter((e) => {
-          return e !== null
+        return (this.local.tasks || []).filter((e) => {
+          return e
         })
       }
     },

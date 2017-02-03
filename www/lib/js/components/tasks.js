@@ -1,6 +1,11 @@
-var React, ReactDOM, Pikaday, $, moment, Sugar, pull, Sortable, storage
+var React, ReactDOM, Pikaday, $, moment, Sugar, pull, Sortable, storage, forceUpdate
 
 let TaskList = React.createClass({
+  getInitialState () {
+    return {
+      tasks: this.props.tasks
+    }
+  },
   componentDidMount () {
     Sortable.create(document.getElementById('task-list'), {
       group: 'tasks',
@@ -22,9 +27,15 @@ let TaskList = React.createClass({
         $('.date-tag .fa-arrows').removeClass('fa-arrows').addClass('fa-calendar')
       }
     })
+
+    forceUpdate = (tasks) => {
+      this.setState({
+        tasks: tasks
+      })
+    }
   },
   render () {
-    let tasks = this.props.tasks.map((task, i) => {
+    let tasks = this.state.tasks.map((task, i) => {
       return <Task task={task} key={i} />
     })
     return (
@@ -38,6 +49,7 @@ let TaskList = React.createClass({
 
 let Task = React.createClass({
   getInitialState () {
+    if (typeof this.props.task.checked === 'string') this.props.task.checked = JSON.parse(this.props.task.checked)
     return {
       difficulty: this.props.task.difficulty,
       checked: this.props.task.checked,
@@ -111,9 +123,9 @@ let Task = React.createClass({
     }
   },
   componentWillUpdate (nextProps, nextState) {
-    storage.tasks.setTaskProperty(this.props.task.id, 'tags', nextState.tags)
-    storage.tasks.setTaskProperty(this.props.task.id, 'checked', nextState.checked)
-    storage.tasks.setTaskProperty(this.props.task.id, 'difficulty', nextState.difficulty)
+    if (this.state.tags !== nextState.tags) storage.tasks.setTaskProperty(this.props.task.id, 'tags', nextState.tags)
+    if (this.state.checked !== nextState.checked) storage.tasks.setTaskProperty(this.props.task.id, 'checked', nextState.checked)
+    if (this.state.difficulty !== nextState.checked.difficulty) storage.tasks.setTaskProperty(this.props.task.id, 'difficulty', nextState.difficulty)
   },
   render () {
     let difficulty = (() => {
@@ -296,8 +308,9 @@ let TaskDeleteBox = React.createClass({
 })
 
 storage.tasks.render = (tasks) => {
-  if (!tasks) tasks = storage.tasks.get()
-  ReactDOM.render(<TaskList tasks={tasks} />, $('.container')[0])
+  storage.get((data) => {
+    if (!tasks) tasks = storage.tasks.get()
+    ReactDOM.render(<TaskList tasks={tasks} />, $('.container')[0])
+  })
 }
-
 storage.tasks.render()

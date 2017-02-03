@@ -2,7 +2,12 @@ doctype html
 head
   meta(charset='utf-8')
   meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name="apple-mobile-web-app-capable", content="yes")
+  meta(name="mobile-web-app-capable", content="yes")
+  meta(name="apple-mobile-web-app-status-bar-style", content="black")
   title todue
+  link(rel="apple-touch-icon", href="/src/icons/todue-check.png")
+  link(rel="shortcut icon", href="/src/icons/todue-check.png")
   link(rel='stylesheet', href='/css/styles.min.css', media='screen', charset='utf-8')
   script(src='/js/libraries.min.js', charset='utf-8')
   script(src='/socket.io/socket.io.js', charset='utf-8')
@@ -12,7 +17,7 @@ body
       span.navbar-toggler-icon
     a.navbar-brand(href='/')
       b  todue
-    div.collapse.navbar-collapse#navbar
+    .collapse.navbar-collapse#navbar
       ul.navbar-nav
         li.nav-item
           a.nav-link.add-task(href='#')
@@ -23,6 +28,17 @@ body
           a.nav-link.remove-task(href='#')
             i.fa.fa-minus
             |  Remove Task
+    if user
+      form.form-inline(action='logout', method='post')
+        .input-group
+          label.input-group-addon Signed in as: #{user.givenName}
+          button.input-group-addon.bg-faded(type='submit') Logout
+    else
+      a.btn.btn-outline-warning.my-2.my-sm-0(href='/login') Login or Create Account
+
   .container
+
+  script.
+    var loggedIn = #{user ? true : false}
 
   script(src='/js/scripts.min.js', charset='utf-8')
