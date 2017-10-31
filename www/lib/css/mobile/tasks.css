@@ -1,6 +1,0 @@
-@media screen and (max-width: 991px) {
-  .task-tag:focus {
-    background: inherit !important;
-    color: #55595c !important;
-  }
-}
