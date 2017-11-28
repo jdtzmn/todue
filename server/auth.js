@@ -17,7 +17,6 @@ module.exports = (app) => {
     if (req.body.number && req.body.carrier) {
       // generate code
       const code = Math.random().toString().substr(-6)
-      console.log(code)
       // send the code in a text
       gator.sendText(+req.body.number, req.body.carrier, 'Your code is: ' + code, (err, info) => {
         if (err) return res.status(500).send(err)
@@ -62,11 +61,15 @@ module.exports = (app) => {
 
   // test api
   app.get('/api/test', (req, res) => {
-    jwt.verify(req.signedCookies.token, secret, (err, payload) => {
-      if (err || req.headers['x-csrf-token'] !== payload.xsrfToken) {
-        return res.sendStatus(401)
-      }
-      res.send('YAY')
-    })
+    if (req.signedCookies.token) {
+      jwt.verify(req.signedCookies.token, secret, (err, payload) => {
+        if (err || req.headers['x-csrf-token'] !== payload.xsrfToken) {
+          return res.sendStatus(401)
+        }
+        res.send('YAY')
+      })
+    } else {
+      return res.sendStatus(401)
+    }
   })
 }
