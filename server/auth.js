@@ -62,10 +62,7 @@ module.exports = (app) => {
 
   // test api
   app.get('/api/test', (req, res) => {
-    console.log(req.signedCookies)
-    console.log(req.headers['x-csrf-token'])
     jwt.verify(req.signedCookies.token, secret, (err, payload) => {
-      console.log(payload.xsrfToken)
       if (err || req.headers['x-csrf-token'] !== payload.xsrfToken) {
         return res.sendStatus(401)
       }
