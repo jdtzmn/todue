@@ -1,8 +1,6 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+<template lang='pug'>
+  #app
+    router-view
 </template>
 
 <script>
@@ -12,12 +10,24 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Lato:700');
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.el-popper {
+  font-family: 'Lato', sans-serif;
+}
+
+.el-message {
+  font-family: 'Lato', sans-serif;
 }
 </style>
